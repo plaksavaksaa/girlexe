@@ -32,7 +32,8 @@
 
     #overlay {
       position: absolute;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
       background: black;
@@ -93,7 +94,8 @@
 
     window.addEventListener('load', () => {
       audio.volume = 0.05;
-      audio.play();
+      audio.play().catch(e => console.warn('Autoplay error:', e));
+
       const fadeIn = setInterval(() => {
         if (audio.volume < 0.9) {
           audio.volume += 0.05;
