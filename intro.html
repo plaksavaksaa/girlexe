@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Intro</title>
   <style>
     @font-face {
@@ -12,13 +12,34 @@
     body {
       margin: 0;
       background: black;
-      color: hotpink;
       font-family: 'Retrogression', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       overflow: hidden;
+      color: hotpink;
+    }
+
+    #startScreen {
+      position: absolute;
+      inset: 0;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+
+    #startBtn {
+      background: hotpink;
+      color: white;
+      border: none;
+      padding: 1em 2em;
+      font-size: 1.2em;
+      cursor: pointer;
+      font-family: 'Retrogression', sans-serif;
+      text-shadow: 0 0 5px white;
     }
 
     #text {
@@ -28,12 +49,12 @@
       text-shadow: 0 0 10px hotpink;
       max-width: 80%;
       line-height: 1.6;
+      z-index: 5;
     }
 
     #overlay {
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100vw;
       height: 100vh;
       background: black;
@@ -47,6 +68,7 @@
 <body>
   <div id="overlay"></div>
   <div id="text"></div>
+  <div id="startScreen"><button id="startBtn">Начать</button></div>
   <audio id="introAudio" src="intro.mp3"></audio>
 
   <script>
@@ -61,6 +83,8 @@
     const textEl = document.getElementById('text');
     const overlay = document.getElementById('overlay');
     const audio = document.getElementById('introAudio');
+    const startBtn = document.getElementById('startBtn');
+    const startScreen = document.getElementById('startScreen');
     let lineIndex = 0;
 
     function typeLine(line, i = 0) {
@@ -83,7 +107,6 @@
                 audio.pause();
               }
             }, 150);
-
             setTimeout(() => {
               window.location.href = 'index.html';
             }, 2000);
@@ -92,10 +115,10 @@
       }
     }
 
-    window.addEventListener('load', () => {
+    startBtn.addEventListener('click', () => {
+      startScreen.style.display = 'none';
       audio.volume = 0.05;
       audio.play().catch(e => console.warn('Autoplay error:', e));
-
       const fadeIn = setInterval(() => {
         if (audio.volume < 0.9) {
           audio.volume += 0.05;
@@ -103,10 +126,7 @@
           clearInterval(fadeIn);
         }
       }, 150);
-
-      setTimeout(() => {
-        typeLine(lines[0]);
-      }, 4000);
+      setTimeout(() => typeLine(lines[0]), 500);
     });
   </script>
 </body>
