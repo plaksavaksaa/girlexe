@@ -1,0 +1,67 @@
+@font-face {
+  font-family: 'RetroFont';
+  src: url('Retrogression-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  background: white;
+  font-family: 'RetroFont', serif;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.corner {
+  position: absolute;
+  height: auto;
+  z-index: 10;
+}
+
+.top-left {
+  top: 10px;
+  left: 10px;
+  width: 120px;
+}
+
+.top-right {
+  top: 20px;
+  right: 20px;
+  width: 100px;
+}
+
+.bottom-left {
+  bottom: 20px;
+  left: 20px;
+  width: 100px;
+}
+
+.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  width: 120px;
+}
+
+.center-message {
+  text-align: center;
+  font-size: 5rem;
+  color: black;
+  z-index: 5;
+}
+
+.photo-button {
+  margin-top: 1em;
+  padding: 0.6em 1.2em;
+  background: none;
+  border: 1px solid black;
+  font-family: serif;
+  font-size: 1rem;
+  cursor: pointer;
+}
+

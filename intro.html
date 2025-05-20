@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Intro</title>
+  <style>
+    @font-face {
+      font-family: 'Retrogression';
+      src: url('Retrogression-Regular.ttf') format('truetype');
+    }
+
+    body {
+      margin: 0;
+      background: black;
+      color: hotpink;
+      font-family: 'Retrogression', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #text {
+      text-align: center;
+      white-space: pre-line;
+      font-size: 2rem;
+      text-shadow: 0 0 10px hotpink;
+      max-width: 80%;
+      line-height: 1.6;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s ease;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="overlay"></div>
+  <div id="text"></div>
+  <audio id="introAudio" src="intro.mp3"></audio>
+
+  <script>
+    const lines = [
+      "Эта история начинается, как все сказки:\nс девочки, у которой были косички и один вопрос, на который никто не знал ответа.",
+      "Однажды ей сказали:\n«Сходи вот туда, отнеси кое-что. Только не сворачивай. И никого не слушай».",
+      "Но девочка уже давно слышала, как внутри неё кто-то упрямо царапался.",
+      "Кликай и выбирай, куда идти и на что смотреть.",
+      "Всё просто."
+    ];
+
+    const textEl = document.getElementById('text');
+    const overlay = document.getElementById('overlay');
+    const audio = document.getElementById('introAudio');
+    let lineIndex = 0;
+
+    function typeLine(line, i = 0) {
+      if (i === 0) textEl.textContent = '';
+      if (i < line.length) {
+        textEl.textContent += line[i];
+        setTimeout(() => typeLine(line, i + 1), 40);
+      } else {
+        setTimeout(() => {
+          lineIndex++;
+          if (lineIndex < lines.length) {
+            typeLine(lines[lineIndex]);
+          } else {
+            overlay.style.opacity = 1;
+            const fadeAudio = setInterval(() => {
+              if (audio.volume > 0.05) {
+                audio.volume -= 0.05;
+              } else {
+                clearInterval(fadeAudio);
+                audio.pause();
+              }
+            }, 150);
+
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 2000);
+          }
+        }, 2500);
+      }
+    }
+
+    window.addEventListener('load', () => {
+      audio.volume = 0.05;
+      audio.play();
+      const fadeIn = setInterval(() => {
+        if (audio.volume < 0.9) {
+          audio.volume += 0.05;
+        } else {
+          clearInterval(fadeIn);
+        }
+      }, 150);
+
+      setTimeout(() => {
+        typeLine(lines[0]);
+      }, 4000);
+    });
+  </script>
+</body>
+</html>
